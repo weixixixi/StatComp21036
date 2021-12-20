@@ -1,0 +1,19 @@
+Package: StatComp21036
+Type: Package
+Title:  Functions for variable selection using Second-Generation P-Values
+Version: 1.0
+Date: 2021-12-23
+Author: Mengxi Wei
+Maintainer: Mengxi Wei <xixi990302@mail.ustc.edu.cn>
+Description: R version of functions about sgpr are provided in this package. Functions print(), summary(), coef() are available.
+License: GPL (>= 2)
+Imports: Rcpp, microbenchmark, knitr, rmarkdown, boot, parallel, Ball, moments, RANN, energy
+LinkingTo: Rcpp
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+VignetteBuilder: knitr
+URL: http://github.com/weixixixi/StatComp21036
+BugReports: http://github.com/weixixixi/StatComp21036/issues
+
+
