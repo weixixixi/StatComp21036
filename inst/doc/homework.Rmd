@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-1st
+## 1st
 
 1. Text
 
@@ -38,7 +38,7 @@ m <- matrix(a,nrow=2,ncol=3,dimnames=list(c("a","b"),c("Estimate","Left","Right"
 knitr::kable(m, caption="CI")
 ```
 
-2nd
+## 2nd
 
 3.4: 
 
@@ -273,7 +273,7 @@ knitr::kable(m)
 
 The errors of means and variances are all less than 0.1, so we can make a conclusion from this form that the estimations of mean and variance values are close to the theoretical values.
 
-3rd
+## 3rd
 
 5.4: Beta(3, 3) pdf is:$$h(x)=30x^2(1-x)^2,$$
 $$g(y)=30xy^2(1-y)^2,Y\sim N(0,x).$$
@@ -378,7 +378,7 @@ mean((x^4/sqrt(2*pi))*exp(-x^2/2))
 ```
 We choose f1 from 5.13 as the important function to estimate this integration, and the estimation is around 0.4. 
 
-4th
+## 4th
 
 6.5: 
 To obtain a Monte Carlo estimate of $\theta = E[X]$ based on 20 replicates, generate random samples $X_i$ from $\chi^2(2)$ distribution, $i=1,2,...,20.$
@@ -465,7 +465,7 @@ class:
 
 (3)\(t_{n-1,\alpha/2}\leq T< t_{n-1,1-\alpha/2}\), so we only need to know the quantile of t distribution and the distance between two probabilities.
 
-5th
+## 5th
 
 6.C: 
 Here we take $d=3$, $\alpha=0.05$ and $n=10,20,30,50,100,500$ for Type I error in Mardia’s multivariate skewness test; Then take $d=3$, $\alpha=0.1$ and $n=30$ for Type II error(power).
@@ -533,7 +533,7 @@ pwr
 ```
 Conclusion2: When $\epsilon falls around (0.1,0.3)$, the power function can be very high.
 
-6th
+## 6th
 
 ```{r}
 library(boot)
@@ -669,7 +669,7 @@ re2 <- data.frame(Lable2, res2)
 re2
 ```
 
-7th
+## 7th
 
 (1)
 8.2: Implement the bivariate Spearman rank correlation test for independence as a permutation test. The Spearman rank correlation test statistic can be obtained from function cor with method  "spearman". Compare the achieved significance level of the permutation test with the p-value got by cor.test on the same samples.
@@ -832,9 +832,9 @@ Conclusion:
 1. Ball method is the most powerful test when variance is different or both variance and expectation are different.
 2. From these four situations, we could see that energy and ball methods are both more powerful than NN method. But the former two methods cannot be uniformly distinguished. Moreover, if these two methods need to be distinguished, we should discuss in different situations.
 
-8th
+## 8th
 
-## Answer 9.3
+Answer 9.3
 
 Use the Metropolis-Hastings sampler to generate random variables from a standard Cauchy distribution. Discard the first 1000 of the chain, and compare the deciles of the generated observations with the deciles of the standard Cauchy distribution.
 
@@ -884,7 +884,7 @@ $$x_q=F^{-1}(q)={\rm tan}[(q-\frac{1}{2})\pi]$$
 
 From the plot, it appears that the sample deciles are in approximate agreement with the theoretical deciles (the points fall around the line y=x). 
 
-## Answer 9.8
+Answer 9.8
 
 Fixed a=10, b=10, n=20, the conditional distribution are ${\rm Binomial}(20,y)$ and ${\rm Beta}(x+10,30-x).$
 
@@ -906,7 +906,7 @@ gib.chain <-function(N,a1,a2){
 # gib.chain(N, 0, 0)[(b+1):N,]
 ```
 
-## Answer added question
+Answer added question
 
 Use the Gelman-Rubin method to monitor convergence of the chain, and run the chain until it converges approximately to the target distribution according to $\hat R<1.2$.
 ```{r}
@@ -995,7 +995,7 @@ cauchy.chain <- function(N, x0) {
 
 In both exercises, all chains meet the requirements for convergences: $\hat R<1.2$.
 
-9th
+## 9th
 
 11.3
 To compute the $k^{{\rm th}}$ term in the summation formula and return the sum.
@@ -1091,7 +1091,7 @@ lambda_0
 ```
 So we can easily get the conclusion that value of $\lambda$ got from EM algorithm converges to the true $\lambda$.
 
-10th
+## 10th
 
 1.1
 
@@ -1189,23 +1189,23 @@ list(system.time(mcsapply(simulation, function(x) {
 ```
 We can see computing speed gets great increased, so I think the mcvapply() can be implemented as mcsapply() does.
 
-11th
+## 11th
 
-## Answer 1
+Answer 1
 ```{r}
 # R code
-# gib.chain <- function(a, b, n){
-#   N <- 5000
-#   burn <- 1000
-#   X <- matrix(0, N, 2)
-#   X[1,]<-c(0, 0)
-#   for(i in 2:N){
-#     X[i, 1] <- rbinom(1, n, X[i-1, 2])
-#     X[i, 2] <- rbeta(1, X[i, 1] + a, n + b - X[i, 1])
-#   }
-#   x <- X[(burn + 1):N, ]
-#   return(x)
-# }
+gib.chain <- function(a, b, n){
+  N <- 5000
+  burn <- 1000
+  X <- matrix(0, N, 2)
+  X[1,]<-c(0, 0)
+  for(i in 2:N){
+    X[i, 1] <- rbinom(1, n, X[i-1, 2])
+    X[i, 2] <- rbeta(1, X[i, 1] + a, n + b - X[i, 1])
+  }
+  x <- X[(burn + 1):N, ]
+ return(x)
+}
 # C++ code (Rcpp function)
 library(Rcpp)
 cppFunction('NumericMatrix gib_chain_rcpp(double a, double b, double m) {
@@ -1225,7 +1225,7 @@ cppFunction('NumericMatrix gib_chain_rcpp(double a, double b, double m) {
 }')
 ```
 
-## Answer 2
+Answer 2
 ```{r}
 # qqplot
 a <- 10
@@ -1237,14 +1237,14 @@ qqplot(X_R[, 1], X_C[, 1], xlab = "Discrete_R", ylab = "Discrete_Rcpp")
 qqplot(X_R[, 2], X_C[, 2], xlab = "Continuous_R", ylab = "Continuous_Rcpp")
 ```
 
-## Answer 3
+Answer 3
 ```{r}
 library(microbenchmark)
 ts <- microbenchmark(ts1 <- gib.chain(a, b, n), ts2 <- gib_chain_rcpp(a, b, n))
 ts
 ```
 
-## Answer 4
+Answer 4
 Comments for result:
 Rcpp function can perform as R function does, but Rcpp function can be more efficient.
 

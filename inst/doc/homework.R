@@ -908,18 +908,18 @@ list(system.time(mcsapply(simulation, function(x) {
 
 ## -----------------------------------------------------------------------------
 # R code
-# gib.chain <- function(a, b, n){
-#   N <- 5000
-#   burn <- 1000
-#   X <- matrix(0, N, 2)
-#   X[1,]<-c(0, 0)
-#   for(i in 2:N){
-#     X[i, 1] <- rbinom(1, n, X[i-1, 2])
-#     X[i, 2] <- rbeta(1, X[i, 1] + a, n + b - X[i, 1])
-#   }
-#   x <- X[(burn + 1):N, ]
-#   return(x)
-# }
+gib.chain <- function(a, b, n){
+  N <- 5000
+  burn <- 1000
+  X <- matrix(0, N, 2)
+  X[1,]<-c(0, 0)
+  for(i in 2:N){
+    X[i, 1] <- rbinom(1, n, X[i-1, 2])
+    X[i, 2] <- rbeta(1, X[i, 1] + a, n + b - X[i, 1])
+  }
+  x <- X[(burn + 1):N, ]
+ return(x)
+}
 # C++ code (Rcpp function)
 library(Rcpp)
 cppFunction('NumericMatrix gib_chain_rcpp(double a, double b, double m) {
