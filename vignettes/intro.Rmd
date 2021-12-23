@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Sgpv"
+title: "Introduction to secondp"
 author: "Mengxi Wei"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -11,7 +11,7 @@ vignette: >
 
 ## Overview
 
-__Sgpv__ is a simple R package developed to select variables with second-generation p-values. Four functions are considered, _sgpv_, _print.sgpv_, _coef.sgpv_, _summary.sgpv_. All functions are given for variable selection with second-generation p-values method.
+__secondp__ is a simple R package developed to select variables with second-generation p-values. Four functions are considered, _secondp_, _print.secondp_, _coef.secondp_, _summary.secondp_. All functions are given for variable selection with second-generation p-values method.
 
 ## Second-Generation P-Values
 Let $\theta$ as a parameter of interest: $I=[\theta_l,\theta_u]$
@@ -28,13 +28,13 @@ $S=\left\{k \in C:|\hat{\beta}^{{\rm ols}}_k|>\lambda_k\right\}$
 
 $C$ is the initial set of variables for coming selection. Here we choose 95% CI, so $\lambda_k=1.96\times {\rm SE}_k+\overline{\rm SE}$.
 
-## The source R code for _sgpv_:
+## The source R code for _secondp_:
 
 Standardize inputs in linear regression 
 and the inputs can be variables which have been selected from other methods like lasso.
 
 ```{r,eval=FALSE}
-sgpv <- function(x, y) {
+secondp <- function(x, y) {
   if (!is.numeric(as.matrix(x)) | !is.numeric(y)) 
     stop("The input data have non-numeric values.")
   if (any(complete.cases(x) == F) | any(complete.cases(y) == F)) {
@@ -43,6 +43,7 @@ sgpv <- function(x, y) {
     x <- x[comp.index, ]
     y <- y[comp.index, ]
   }
+
   xs <- scale(x)
   ys <- scale(y)
   mod <- lm(ys ~ xs)
@@ -51,14 +52,14 @@ sgpv <- function(x, y) {
 
   candidate.index <- 1:ncol(xs)
   null.bound.p <- mean(se)
-  out.sgpv <- candidate.index[which(abs(pe) > 1.96 * se + null.bound.p)]
+  out.secondp <- candidate.index[which(abs(pe) > 1.96 * se + null.bound.p)]
   pe.can <- pe
   lb.can <- pe - 1.96 * se
   ub.can <- pe + 1.96 * se
 
   out <- list(
-    var.index = out.sgpv,
-    var.label = colnames(x)[out.sgpv],
+    var.index = out.secondp,
+    var.label = colnames(x)[out.secondp],
     x = data.frame(x),
     y = y,
     pe.can = pe.can,
@@ -66,37 +67,39 @@ sgpv <- function(x, y) {
     ub.can = ub.can,
     null.bound.p = null.bound.p
   )
-  
-  class(out) <- "sgpv"
   return(out)
 }
 ```
 
-## The source R code for _print.sgpv_:
+## The source R code for _print.secondp_:
 ```{r,eval=FALSE}
-print.sgpv <- function(object, ...) {
+print.secondp <- function(x, ...) {
+  if (length(x$var.index) > 0) {
+    x$var.label
+  } else {
+    message("None of variables are selected.\n")
+  }
+}
+```
+
+## The source R code for _coef.secondp_:
+```{r,eval=FALSE}
+coef.secondp <- function(object, ...) {
   out.coef <- numeric(ncol(object$x))
   if (length(object$var.index) > 0) {
-    data.d <- data.frame(yy = object$y, 
-                         xx = object$x[, object$var.index])
-    out.sgpv.coef <- coef(lm(yy ~ ., data = data.d))[-1]
+    data.d <- data.frame(yy = object$y, xx = object$x[, object$var.index])
+    out.secondp.coef <- coef(lm(yy ~ ., data = data.d))[-1]
     for (i in 1:length(object$var.index)) {
-      out.coef[object$var.index[i]] <- out.sgpv.coef[i]
+      out.coef[object$var.index[i]] <- out.secondp.coef[i]
     }
   }
-  if (length(object$var.index) > 0) {
-    cat("Selected variables are", object$var.label, "\n")
-  } else {
-    cat("None of variables are selected.\n")
-  }
-  out <- list(object$var.label, out.coef)
-  return(out)
+  return(out.coef)
 }
 ```
 
-## The source R code for _summary.sgpv_:
+## The source R code for _summary.secondp_:
 ```{r,eval=FALSE}
-summary.sgpv <- function(object, ...) {
+summary.secondp <- function(object, ...) {
   if (length(object$var.index) > 0){
     data.d <- data.frame(yy = object$y, 
                          xx = object$x[, object$var.index])
